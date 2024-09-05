@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
 })
 
 
-router.post('/city', CityControllers.create)
+router.post('/city', CityControllers.createBodyValidator, CityControllers.create)
 
 
 export { router }
