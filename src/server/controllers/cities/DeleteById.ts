@@ -1,22 +1,21 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
-
 import { Request, Response } from "express"
 import * as yup from 'yup'
 import "../../shared/services/TranslationsYup"
 import { validation } from "../../shared/middlewares"
 import { StatusCodes } from "http-status-codes"
 
-interface CityProps {
-  name: string
+interface IParamsProps {
+  id?: number
 }
 
-export const createValidation = validation((getSchema) => ({
-  body: getSchema<CityProps>(yup.object().shape({
-    name: yup.string().required().min(3)
+export const deleteByIdValidation = validation((getSchema) => ({
+  params: getSchema<IParamsProps>(yup.object().shape({
+    id: yup.number().integer().required().moreThan(0)
   }))
 }))
 
-export const create = async (req: Request<{}, {}, CityProps>, res: Response) => {
-  console.log(req.body)
+export const deleteById = async (req: Request<IParamsProps>, res: Response) => {
+  console.log(req.params)
   return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Não implementado!")
 }
