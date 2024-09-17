@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-empty-object-type */
+
 import { Request, Response } from "express"
 import * as yup from 'yup'
 import "../../shared/services/TranslationsYup"
