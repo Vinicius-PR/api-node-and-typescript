@@ -235,4 +235,11 @@ O **Object.entries(schemas)** retorna também um array de array. A primeira posi
 
 No *try/catch* ira validar usando o schema. Caso tenha alguem erro, o catch ira criar o erro com a mensagem e salvar dentro do objeto **errorsResult**
 
-No final testara o tamanho do objeto **errorsResult**. Se estiver vacio, o next() ira ser retornado e prosseguirá com a função de criação de cidade. Caso contrario, o erro é mostrado e para por ai.
+No final testara o tamanho do objeto **errorsResult**. Se estiver vazio, o next() ira ser retornado e prosseguirá com a função de criação de cidade. Caso contrario, o erro é mostrado e para por ai.
+
+
+# Aula 22
+
+## Criando a pasta providers
+
+Essa pasta foi criada para colocar funções que irá manipular os dados no banco. Como criar, deletar, atualizar e por ai vai. Todas as funções do **CRUD**.
