@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import { StatusCodes } from "http-status-codes"
-import { CityControllers, PeopleControllers } from '../controllers'
+import { CityControllers, PeopleControllers, UserControllers } from '../controllers'
 
 const router = Router()
 
@@ -20,5 +20,8 @@ router.get('/people/:id', PeopleControllers.getByIdValidation, PeopleControllers
 router.put('/people/:id', PeopleControllers.updateByIdValidation, PeopleControllers.updateById)
 router.post('/people', PeopleControllers.createValidation, PeopleControllers.create)
 router.delete('/people/:id', PeopleControllers.deleteByIdValidation, PeopleControllers.deleteById)
+
+router.post('/entrar', UserControllers.signInValidation, UserControllers.signIn)
+router.post('/cadastrar', UserControllers.signUpValidation, UserControllers.signUp)
 
 export { router }
