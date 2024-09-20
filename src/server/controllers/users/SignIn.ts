@@ -18,14 +18,6 @@ export const signInValidation = validation((getSchema) => ({
 }))
 
 export const signIn = async (req: Request<{}, {}, IBodyProps>, res: Response) => {
-  if (!req.body.email) {
-    return res.status(StatusCodes.BAD_REQUEST).json({
-      erros: {
-        default: "Email não informado"
-      }
-    })
-  }
-
   const result = await UsersProviders.getByEmail(req.body.email)
 
   if (result instanceof Error) {

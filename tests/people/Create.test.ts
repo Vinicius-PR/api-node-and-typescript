@@ -17,12 +17,13 @@ describe("People - Create", () => {
       .post('/people')
       .send({
         name: "Rafael Santos",
-        email: "rafaelcreate@gmail.com",
+        email: "rafael@gmail.com",
         cityId
       })
     expect(res1.statusCode).toEqual(StatusCodes.CREATED)
     expect(typeof res1.body).toEqual('number')
   })
+
   it("Create a person with email duplication", async () => {
     const res1 = await testServer
       .post('/people')
@@ -91,7 +92,7 @@ describe("People - Create", () => {
       .post('/people')
       .send({
         name: "Rafael Santos",
-        email: "rafael@gmail.com"
+        email: "rafaelnocity@gmail.com"
       })
     expect(res1.statusCode).toEqual(StatusCodes.BAD_REQUEST)
     expect(res1.body).toHaveProperty('errors.body.cityId')
