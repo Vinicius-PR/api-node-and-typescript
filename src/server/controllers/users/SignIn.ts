@@ -6,6 +6,7 @@ import { StatusCodes } from "http-status-codes";
 import { validation } from "../../shared/middlewares";
 import { UsersProviders } from "../../database/providers/users";
 import { IUser } from "../../database/models";
+import { PasswordCryto } from "../../shared/services";
 
 
 interface IBodyProps extends Omit<IUser, 'id' | 'name'> { }
@@ -28,7 +29,8 @@ export const signIn = async (req: Request<{}, {}, IBodyProps>, res: Response) =>
     })
   }
 
-  if (result.password !== req.body.password) {
+  const resultPassword = await PasswordCryto.verifyPassword(req.body.password, result.password)
+  if (!resultPassword) {
     return res.status(StatusCodes.UNAUTHORIZED).json({
       errors: {
         default: "Email ou senha são inválidos"
