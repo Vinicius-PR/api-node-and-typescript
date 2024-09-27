@@ -3,11 +3,28 @@ import { testServer } from "../jest.setup"
 
 describe("People - Create", () => {
 
-  let cityId: number | undefined = undefined
+  let accessToken = ''
+  beforeAll(async () => {
+    const userEmail = "create-people@gmail.com"
+    await testServer.post("/cadastrar").send({
+      name: "createpeople",
+      email: userEmail,
+      password: "123456"
+    })
 
+    const loginResult = await testServer.post("/entrar").send({
+      email: userEmail,
+      password: "123456"
+    })
+    accessToken = loginResult.body.accessToken
+    console.log('accestoken people create', accessToken)
+  })
+
+  let cityId: number | undefined = undefined
   beforeAll(async () => {
     const resCity = await testServer
       .post('/city')
+      .set({ authorization: `Bearer ${accessToken}` })
       .send({ name: "City test" })
 
     cityId = resCity.body
