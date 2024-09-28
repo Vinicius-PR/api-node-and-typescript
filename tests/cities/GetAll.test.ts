@@ -20,6 +20,14 @@ describe("Cities - GetAll", () => {
     accessToken = loginResult.body.accessToken
   })
 
+  it("Try to search all cities wihout an authentication token", async () => {
+    const res = await testServer
+      .get('/city')
+      .send()
+    expect(res.statusCode).toBe(StatusCodes.UNAUTHORIZED)
+    expect(res.body).toHaveProperty("errors.default")
+  })
+
   it("Search for all cities", async () => {
     const res1 = await testServer
       .post('/city')
@@ -30,6 +38,7 @@ describe("Cities - GetAll", () => {
 
     const resGetAll = await testServer
       .get('/city')
+      .set({ authorization: `Bearer ${accessToken}` })
       .send()
 
     expect(Number(resGetAll.header['x-total-count'])).toBeGreaterThan(0)

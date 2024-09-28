@@ -20,6 +20,16 @@ describe("Cities - UpdateById", () => {
     accessToken = loginResult.body.accessToken
   })
 
+  it("Try update a city without an authenticantion token", async () => {
+    const res = await testServer
+      .put("/city/1")
+      .send({
+        name: "Test City"
+      })
+    expect(res.statusCode).toBe(StatusCodes.UNAUTHORIZED)
+    expect(res.body).toHaveProperty("errors.default")
+  })
+
   it("Update a city", async () => {
     const res1 = await testServer
       .post('/city')
@@ -30,6 +40,7 @@ describe("Cities - UpdateById", () => {
 
     const updateById = await testServer
       .put(`/city/${res1.body}`)
+      .set({ authorization: `Bearer ${accessToken}` })
       .send({
         name: "Tiradentes"
       })

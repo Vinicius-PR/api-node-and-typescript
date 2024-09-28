@@ -20,17 +20,26 @@ describe("Cities - DeleteById", () => {
     accessToken = loginResult.body.accessToken
   })
 
+  it("Try to delete a city without an authentication token", async () => {
+    const res = await testServer
+      .delete('/city/1')
+      .send()
+    expect(res.statusCode).toBe(StatusCodes.UNAUTHORIZED)
+    expect(res.body).toHaveProperty("errors.default")
+  })
+
   it("Deleting a city", async () => {
 
     const res1 = await testServer
       .post('/city')
-      .set({ Authorization: `Bearer ${accessToken}` })
+      .set({ authorization: `Bearer ${accessToken}` })
       .send({ name: "Resende Costa" })
 
     expect(res1.statusCode).toEqual(StatusCodes.CREATED)
 
     const deleteRes = await testServer
       .delete(`/city/${res1.body}`)
+      .set({ authorization: `Bearer ${accessToken}` })
       .send()
 
     expect(deleteRes.statusCode).toEqual(StatusCodes.NO_CONTENT)
@@ -40,7 +49,7 @@ describe("Cities - DeleteById", () => {
   it("Try to delete a city that does not exist ", async () => {
     const res1 = await testServer
       .delete('/city/99999')
-      .set({ Authorization: `Bearer ${accessToken}` })
+      .set({ authorization: `Bearer ${accessToken}` })
       .send()
     expect(res1.statusCode).toEqual(StatusCodes.INTERNAL_SERVER_ERROR)
     expect(res1.body).toHaveProperty('errors.default')

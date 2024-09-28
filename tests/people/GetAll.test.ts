@@ -23,16 +23,26 @@ describe("People - GetAll", () => {
   let cityId: number | undefined = undefined
   beforeAll(async () => {
     const resCity = await testServer
-      .post('/city')
+      .post("/city")
       .set({ authorization: `Bearer ${accessToken}` })
       .send({ name: "City test" })
 
     cityId = resCity.body
   })
 
+  it("Try to list all people without an authentication token", async () => {
+    const res = await testServer
+      .get("/people")
+      .send()
+
+    expect(res.statusCode).toBe(StatusCodes.UNAUTHORIZED)
+    expect(res.body).toHaveProperty("errors.default")
+  })
+
   it("Search for all the people", async () => {
     const res1 = await testServer
-      .post('/people')
+      .post("/people")
+      .set({ authorization: `Bearer ${accessToken}` })
       .send({
         name: "Rafael Santos",
         email: "rafaelgetall@gmail.com",
@@ -42,10 +52,11 @@ describe("People - GetAll", () => {
     expect(res1.statusCode).toEqual(StatusCodes.CREATED)
 
     const resGetAll = await testServer
-      .get('/people')
+      .get("/people")
+      .set({ authorization: `Bearer ${accessToken}` })
       .send()
 
-    expect(Number(resGetAll.header['x-total-count'])).toBeGreaterThan(0)
+    expect(Number(resGetAll.header["x-total-count"])).toBeGreaterThan(0)
     expect(resGetAll.statusCode).toBe(StatusCodes.OK)
     expect(resGetAll.body.length).toBeGreaterThan(0)
   })
