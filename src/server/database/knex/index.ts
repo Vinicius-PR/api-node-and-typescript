@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === "production") {
 
 const getEnvironment = () => {
   switch (process.env.NODE_ENV) {
-    case 'prodction':
+    case 'production':
       return production
 
     case 'test':
